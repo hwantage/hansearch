@@ -1,0 +1,27 @@
+{
+  "name": "hansearch",
+  "version": "1.0.0",
+  "description": "Library for performing Korean search within JSON objects. Supports Korean initial consonant search.",
+  "main": "src/index.js",
+  "keywords": [
+    "Hangul",
+    "chosung",
+    "search",
+	"Korean",
+	"Korean initial consonant"
+  ],
+  "author": "hwantage <hwantagexsw2@gmail.com> (https://hwantage.github.io)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hwantage/hansearch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hwantage/hansearch/issues",
+    "email": "hwantagexsw2@gmail.com"
+  },
+  "homepage": "https://github.com/hwantage",
+  "engines": {
+    "node": ">=18.15.0"
+  }
+}
