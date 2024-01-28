@@ -52,7 +52,7 @@ npm i hansearch
   */
 ```
 
-## Installation & Usage 2
+## Usage 2
 ```html
 <script src="https://hwantage.github.io/hansearch/src/index.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -96,3 +96,6 @@ var result = hansearch(json, "ㅈ렬화");   // 모든 키를 대상으로 검�
 var result = hansearch(json, "ㅈ렬화", ["title"]);   // title 키를 대상으로 검색을 수행합니다.
 var result = hansearch(json, "ㅈ렬화", ["title", "users"]);   // title과 users 키를 대상으로 검색을 수행합니다.
 ```
+
+## LICENSE
+MIT
