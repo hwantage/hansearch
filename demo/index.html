@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hansearch demo</title>
+	<script src="../src/index.js"></script>
+</head>
+<body>
+<h1>hansearch Simple Demo</h1>
+<p><h3>Input your test json object</h3></p>
+<textarea id="jsonObject" style="width:100%" rows="20">
+[
+	{
+	  "title": "Javascript find, findIndex, filter",
+	  "users": ["김정환", "홍길동", "강감찬", "아이유"],
+	  "description": "구글 네이버 다음"
+	},
+	{
+	  "title": "Javascript 직렬화(serialization)",
+	  "users": ["골리앗", "이순신", "김길동"],
+	  "description": "직렬화를 알아본다."
+	},
+	{
+	  "title": "Javascript 템플릿 리터럴(Template literal)",
+	  "users": ["James", "Tom", "David"],
+	  "description": "고글 가글 고고씽"
+	}
+]
+</textarea>
+
+<p><h3>Type keyword below</h3></p>
+<input type="text" id="search-query">
+
+<p><h3>Below is result</h3></p>
+
+<section id="search-results"><p class="no-results">Please enter a word or phrase above</p><p class="no-results">한글 초성 검색을 지원합니다. <br/><br/>ㄱ글 => 구글, 가글, 고글 등이 검색 결과에 나타납니다.</p></section>
+
+</body>
+
+<script>
+	/* START :: keyup 이벤트 */
+    document.getElementById("search-query").addEventListener("keyup", function (event) {
+	
+		const textarea = document.getElementById('jsonObject');
+
+		// Read the content of the textarea
+		const jsonText = textarea.value;
+
+		try {
+		    // Parse the JSON text into a JavaScript object
+		    const jsonObject = JSON.parse(jsonText);
+
+		    const userInput = event.target.value;
+			
+			// Clear result area
+			document.getElementById("search-results").innerHTML = "";
+			
+			if (userInput.trim() != "")
+			{
+				
+				const result = hansearch(jsonObject, userInput); // here is point code
+				
+				const searchResultsElement = document.getElementById('search-results');
+				const resultItemElement = document.createElement('textarea');
+				resultItemElement.style.width = "100%";
+				resultItemElement.rows = 20;
+				resultItemElement.textContent = JSON.stringify(result, null, 2);
+				searchResultsElement.appendChild(resultItemElement);
+			}
+			else
+			{
+				document.getElementById("search-results").innerHTML =
+				'<p class="no-results">Please enter a word or phrase above</p><p class="no-results">한글 초성 검색을 지원합니다. <br/><br/>ㄱ글 => 구글, 가글, 고글 등이 검색 결과에 나타납니다.</p>';
+			}
+		} catch (error) {
+			document.getElementById("search-results").innerHTML = 
+			'<br/><p class="no-results">Error parsing JSON:' + error.message + '</p>';
+		}
+	
+        
+    });
+    /* E N D :: keyup 이벤트 */ 
+	</script>
+</html>
