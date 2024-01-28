@@ -1,52 +1,98 @@
 
 ## hansearch
 
-JSON 객체에서 한글 검색을 수행.
-한글 초성 검색을 지원.
+Json객체에서 한글 검색을 수행하는 라이브러리. 한글 초성 검색을 지원합니다. 
+<br/>
+Library for performing Korean search within JSON objects. Supports Korean initial consonant search.
 
-## Installation
+[See the simple live demo](https://hwantage.github.io/hansearch/demo/)
+
+## Usage 1
+### Installation
 npm 패키지로 설치합니다.
-`npm i hansearch`
-
-CDN 에서 소스를 인크루드 합니다.
-```html
-<script src="" type="text/javascript"></script>
+```shell
+npm i hansearch
 ```
-
-## Usage
-
+### Usage
 ```js
   // 라이브러리 import
   import hansearch from "hansearch";
 
   // Json 객체 정의
-  var json = [
-    {
-      title: "Javascript find, findIndex, filter",
-      tags: ["JS", "find", "findIndex", "filter"],
-      description: "Javascript 객체 탐색시 자주 사용하는 find, findIndex, filter 문법을 정리합니다.",
-    },
-    {
-      title: "Javascript 직렬화(serialization)",
-      tags: ["JS", "Function", "Hoisting"],
-      description: "직렬화의 의미는 자바스크립트의 메모리 상에 존재하는 Object 나 데이터 구조를 다른 용도로 사용하기 위해 포맷을 변환하는 것.",
-    },
-    {
-      title: "Javascript 템플릿 리터럴(Template literal)",
-      tags: ["JS", "Template literal"],
-      description:
-        "ES6는 템플릿 리터럴(Template literal)이라고 불리는 새로운 문자열 표기법을 도입하였습니다. 템플릿 리터럴은 일반 문자열과 비슷해 보이지만, ‘ 또는 “ 같은 통상적인 따옴표 문자 대신 백틱(backtick) 문자 `를 사용합니다. 템플릿 리터럴은 + 연산자를 사용하지 않아도 간단한 방법으로 새로운 문자열을 삽입할 수 있는 기능을 제공합니다. 이를 문자열 인터폴레이션(String Interpolation)이라 합니다. 문자열 인터폴레이션은 ${}으로 표현식을 감싸 사용합니다.",
-    },
-  ];
+  var json = 
+  [
+  	{
+  	  "title": "Javascript find, findIndex, filter",
+  	  "users": ["김정환", "홍길동", "강감찬", "아이유"],
+  	  "description": "구글 네이버 다음"
+  	},
+  	{
+  	  "title": "Javascript 직렬화(serialization)",
+  	  "users": ["골리앗", "이순신", "김길동"],
+  	  "description": "직렬화를 알아본다."
+  	},
+  	{
+  	  "title": "Javascript 템플릿 리터럴(Template literal)",
+  	  "users": ["James", "Tom", "David"],
+  	  "description": "고글 가글 고고씽"
+  	}
+  ]
 
   // 검색 수행
   const result = hansearch(json, "ㅈ렬화");
-
-  /* result 의 결과는 다음과 같습니다.
+  console.log(result);
+  /* 출력 결과
+  [
     {
-      title: "Javascript 직렬화(serialization)",
-      tags: ["JS", "Function", "Hoisting"],
-      description: "직렬화의 의미는 자바스크립트의 메모리 상에 존재하는 Object 나 데이터 구조를 다른 용도로 사용하기 위해 포맷을 변환하는 것.",
+      "title": "Javascript 직렬화(serialization)",
+      "users": ["골리앗", "이순신", "김길동"],
+      "description": "직렬화를 알아본다."
     }
+  ]
   */
+```
+
+## Installation & Usage 2
+```html
+<script src="https://hwantage.github.io/hansearch/src/index.js" type="text/javascript"></script>
+<script type="text/javascript">
+  var json = 
+  [
+  	{
+  	  "title": "Javascript find, findIndex, filter",
+  	  "users": ["김정환", "홍길동", "강감찬", "아이유"],
+  	  "description": "구글 네이버 다음"
+  	},
+  	{
+  	  "title": "Javascript 직렬화(serialization)",
+  	  "users": ["골리앗", "이순신", "김길동"],
+  	  "description": "직렬화를 알아본다."
+  	},
+  	{
+  	  "title": "Javascript 템플릿 리터럴(Template literal)",
+  	  "users": ["James", "Tom", "David"],
+  	  "description": "고글 가글 고고씽"
+  	}
+  ];
+  
+  var result = hansearch(json, "ㅈ렬화");
+  console.log(result);
+  /* 출력 결과
+  [
+    {
+      "title": "Javascript 직렬화(serialization)",
+      "users": ["골리앗", "이순신", "김길동"],
+      "description": "직렬화를 알아본다."
+    }
+  ]
+  */
+</script>
+```
+
+## Options
+3번째 인자에 검색 대상 키 컬럼을 지정할 수 있습니다.
+```js
+var result = hansearch(json, "ㅈ렬화");   // 모든 키를 대상으로 검색을 수행합니다.
+var result = hansearch(json, "ㅈ렬화", ["title"]);   // title 키를 대상으로 검색을 수행합니다.
+var result = hansearch(json, "ㅈ렬화", ["title", "users"]);   // title과 users 키를 대상으로 검색을 수행합니다.
 ```
