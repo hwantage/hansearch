@@ -56,6 +56,8 @@ npm i hangul-search
   const result = hansearch(json, "ㅈ렬화");
   console.log(result);
   /* 출력 결과
+{
+ "items" :
   [
     {
       "title": "Javascript 직렬화(serialization)",
@@ -63,6 +65,7 @@ npm i hangul-search
       "description": "직렬화를 알아본다."
     }
   ]
+}
   */
 ```
 
@@ -93,6 +96,8 @@ npm i hangul-search
   var result = hansearch(json, "ㅈ렬화");
   console.log(result);
   /* 출력 결과
+{
+ "items" :
   [
     {
       "title": "Javascript 직렬화(serialization)",
@@ -100,6 +105,7 @@ npm i hangul-search
       "description": "직렬화를 알아본다."
     }
   ]
+}
   */
 </script>
 ```
@@ -113,6 +119,13 @@ var result = hansearch(json, "ㅈ렬화");   // 모든 키를 대상으로 검�
 var result = hansearch(json, "ㅈ렬화", ["title"]);   // title 키를 대상으로 검색을 수행합니다.
 var result = hansearch(json, "ㅈ렬화", ["title", "users"]);   // title과 users 키를 대상으로 검색을 수행합니다.
 ```
+
+.mark() 메소드 체이닝을 지원합니다. 일치한 검색어를 `<mark>` 태그로 감싸주며, 원하는 태그를 인자로 넘겨줄 수 있습니다.
+```js
+var result = hansearch(json, "ㅈ렬화").mark();   // 검색어와 일치한 단어를 <mark> 태그로 감싼 결과를 리턴합니다.
+var result = hansearch(json, "ㅈ렬화").mark("tags");   // 검색어와 일치한 단어를 <tags> 태그로 감싼 결과를 리턴합니다.
+```
+
 
 ## References
 
