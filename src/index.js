@@ -28,11 +28,10 @@
   const makeRegexByCho = function (keyWord = "") {
     const escapedSearch = keyWord.replace(/[()|[\]{}\\]/g, ""); // 특수 문자 이스케이프
     const regex = CHO_HANGUL.reduce((acc, cho, index) => acc.replace(new RegExp(cho, "g"), `[${combineHangul(index, 0, 0)}-${combineHangul(index + 1, 0, -1)}]`), escapedSearch);
-    return new RegExp(`(${regex})`, "i");
+    return new RegExp(`(${regex})`, "ig");
   };
 
-  // keys에 지정된 키값을 대상으로 검색 수행. keys가 빈 배열이면 모든 키를 대상으로 검색 수행.
-  return function (jsonObj, keyWord, keys = []) {
+  const hansearch = function (jsonObj, keyWord, keys = []) {
     const regex = makeRegexByCho(keyWord);
     let searchResult = jsonObj.filter((obj) => {
       for (const key in obj) {
@@ -44,6 +43,31 @@
       }
       return false;
     });
-    return searchResult;
+
+    return {
+      items: searchResult,
+      mark: function (tag = "mark") {
+        return {
+          items: searchResult.map((obj) => {
+            const markedObj = {};
+            for (const key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                if (keys.length === 0 || keys.includes(key)) {
+                  if (Array.isArray(obj[key])) {
+                    // 배열인 경우 각 원소에 대해 처리
+                    markedObj[key] = obj[key].map((item) => item.replace(regex, `<${tag}>$&</${tag}>`));
+                  } else {
+                    markedObj[key] = obj[key].replace(regex, `<${tag}>$&</${tag}>`);
+                  }
+                } else markedObj[key] = obj[key];
+              }
+            }
+            return markedObj;
+          }),
+        };
+      },
+    };
   };
+
+  return hansearch;
 });

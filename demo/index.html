@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>hansearch live demo</title>
-	<script src="https://hwantage.github.io/hansearch/src/index.js"></script>
+	<script src="../src/index.js"></script>
 </head>
 <body>
 <h1>hansearch Live Demo</h1>
-<p><h3>Input your test json object</h3></p>
+<p><h3>Input your test json object below</h3></p>
 <textarea id="jsonObject" style="width:100%" rows="20">
 [
 	{
@@ -28,10 +28,10 @@
 ]
 </textarea>
 
-<p><h3>Type keyword below</h3></p>
+<p><h3>Type keywords below</h3></p>
 <input type="text" id="search-query">
 
-<p><h3>Below is result</h3></p>
+<p><h3>Below is result : <span style="background-color:yellow;">hansearch(json, '<span name="userInput"></span>').mark()</span></h3></p>
 
 <section id="search-results"><p class="no-results">Please enter a word or phrase above</p><p class="no-results">한글 초성 검색을 지원합니다. <br/><br/>ㄱ글 => 구글, 가글, 고글 등이 검색 결과에 나타납니다.</p></section>
 
@@ -54,21 +54,22 @@
 		    const jsonObject = JSON.parse(jsonText);
 
 		    const userInput = event.target.value;
-			
+			document.getElementsByName("userInput")[0].innerText = userInput;
+
 			// Clear result area
 			document.getElementById("search-results").innerHTML = "";
 			
 			if (userInput.trim() != "")
 			{
 				
-				const result = hansearch(jsonObject, userInput); // here is point code
+				const result = hansearch(jsonObject, userInput).mark(); // here is point code
 				
+				// append marked result
 				const searchResultsElement = document.getElementById('search-results');
-				const resultItemElement = document.createElement('textarea');
-				resultItemElement.style.width = "100%";
-				resultItemElement.rows = 20;
-				resultItemElement.textContent = JSON.stringify(result, null, 2);
-				searchResultsElement.appendChild(resultItemElement);
+				const resultHtmlElement = document.createElement('pre');
+				resultHtmlElement.style.width = "100%";
+				resultHtmlElement.innerHTML = JSON.stringify(result, null, 2);
+				searchResultsElement.appendChild(resultHtmlElement);
 			}
 			else
 			{
