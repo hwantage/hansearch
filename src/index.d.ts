@@ -9,9 +9,9 @@
  * const result = hansearch(jsonArray, "키워드"); // jsonArray의 모든 키값을 탐색
  * const result = hansearch(jsonArray, "키워드", ["key1", "key2"]); // jsonArray의 key1 및 key2 값만 탐색
  * const result = hansearch(jsonArray, "키워드").mark(); // 결과 값 <mark></mark> 태그 치환
+ * const result = hansearch(jsonArray, "키워드").mark("my-tag"); // 결과 값 <my-tag></my-tag> 태그 치환
  **/
 interface MarkedResult {
-    results: Record<string, any>[];
     mark: (tag?: string) => Record<string, any>[];
 }
 
