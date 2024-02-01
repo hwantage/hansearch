@@ -16,18 +16,15 @@ Hugo 블로그에서 Fuse.js 를 이용해 검색기능을 구현해 보았는�
 * AMD, CJS 스펙을 모두 지원할 수 있도록 UMD 패턴으로 작성하였습니다.
 * 사용법이 매우 간편합니다.
 
+[라이브 데모 확인하기](https://hwantage.github.io/hansearch/demo/)
+
 ## Usage 1
-
-### Installation
-
+노드 패키지를 설치해서 테스트 가능합니다. 간편하게 테스트 해보시려면 `Usage 2` 섹션을 참고하세요.
 npm 패키지로 설치합니다.
-
 ```shell
 npm i hangul-search
 ```
-
-### Usage
-
+코드를 작성합니다.
 ```js
   // 라이브러리 import
   import hansearch from "hangul-search";
@@ -55,22 +52,23 @@ npm i hangul-search
   // 검색 수행
   const result = hansearch(json, "ㅈ렬화");
   console.log(result);
+
   /* 출력 결과
-{
- "items" :
-  [
-    {
-      "title": "Javascript 직렬화(serialization)",
-      "users": ["골리앗", "이순신", "김길동"],
-      "description": "직렬화를 알아본다."
-    }
-  ]
-}
+  {
+    "items" :
+    [
+      {
+        "title": "Javascript 직렬화(serialization)",
+        "users": ["골리앗", "이순신", "김길동"],
+        "description": "직렬화를 알아본다."
+      }
+    ]
+  }
   */
 ```
 
 ## Usage 2
-
+CND을 이용하여 실행가능합니다.
 ```html
 <script src="https://hwantage.github.io/hansearch/src/index.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -95,17 +93,18 @@ npm i hangul-search
   
   var result = hansearch(json, "ㅈ렬화");
   console.log(result);
+
   /* 출력 결과
-{
- "items" :
-  [
-    {
-      "title": "Javascript 직렬화(serialization)",
-      "users": ["골리앗", "이순신", "김길동"],
-      "description": "직렬화를 알아본다."
-    }
-  ]
-}
+  {
+    "items" :
+    [
+      {
+        "title": "Javascript 직렬화(serialization)",
+        "users": ["골리앗", "이순신", "김길동"],
+        "description": "직렬화를 알아본다."
+      }
+    ]
+  }
   */
 </script>
 ```
