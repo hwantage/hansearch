@@ -68,7 +68,7 @@ npm i hangul-search
 ```
 
 ## Usage 2
-CND을 이용하여 실행가능합니다.
+CDN을 이용하여 실행가능합니다.
 ```html
 <script src="https://hwantage.github.io/hansearch/src/index.js" type="text/javascript"></script>
 <script type="text/javascript">
