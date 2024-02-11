@@ -12,6 +12,7 @@ Hugo 블로그에서 Fuse.js 를 이용해 검색기능을 구현해 보았는�
 * 영문 대소문자 구분없이 검색을 지원합니다.
 * 한글 초성 검색을 지원합니다.
 * 기본적으로 exact matching 으로 동작합니다.
+* 특수문자에 대한 검색을 지원합니다. (Contributions by [hwahyeon](https://github.com/hwahyeonhttps:/))
 * Typescript 를 지원하도록 구현하였습니다.
 * AMD, CJS 스펙을 모두 지원할 수 있도록 UMD 패턴으로 작성하였습니다.
 * 사용법이 매우 간편합니다.
