@@ -26,7 +26,7 @@
 
   // 초성검색
   const makeRegexByCho = function (keyWord = "") {
-    const escapedSearch = keyWord.replace(/[()|[\]{}\\]/g, ""); // 특수 문자 이스케이프
+    const escapedSearch = keyWord.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
     const regex = CHO_HANGUL.reduce((acc, cho, index) => acc.replace(new RegExp(cho, "g"), `[${combineHangul(index, 0, 0)}-${combineHangul(index + 1, 0, -1)}]`), escapedSearch);
     return new RegExp(`(${regex})`, "ig");
   };
