@@ -134,11 +134,12 @@ var result = hansearch(json, "ㅈ렬화").mark("tags"); // 검색어와 일치�
 
 hansearch 의 3번째 인자에는 json 형태로 옵션값을 전달할 수도 있습니다.
 
-```json
+```js
 var options = {
     "mode" : "exact",
     "keys" : ["key1", "key2"]
 }
+var result = hansearch(json, "ㅈ렬화", options);
 ```
 
 `mode` string "exact" : 정확히 일치하는 검색을 수행합니다. default 는 자음 분해 검색을 수행합니다.
@@ -149,7 +150,7 @@ var options = {
 
 | 다음 두 코드는 동일한 동작을 수행합니다.
 
-```json
+```js
 var keys = ["title", "users"];
 var options = { "keys" : ["title", "users"] };
 
