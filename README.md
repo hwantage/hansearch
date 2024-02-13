@@ -11,9 +11,12 @@ Hugo 블로그에서 Fuse.js 를 이용해 검색기능을 구현해 보았는�
 - 매우 심플하고 빠릅니다.
 - 영문 대소문자 구분없이 검색을 지원합니다.
 - 한글 초성 검색을 지원합니다.
-- 기본적으로 exact matching 으로 동작합니다.
 - 특수문자에 대한 검색을 지원합니다. (Contributions by [hwahyeon](https://github.com/hwahyeonhttps:/))
-- 마지막 입력 문자를 분해하여 다음 문자열 검색에 사용합니다. 예) "많"을 입력한 경우 "만화" 도 함께 검색됩니다.
+- 사용자 입력 그대로 exact matching 검색이 가능합니다. (mode:"exact" 옵션항목 참고)
+- 기본적으로 자음 분해 결합을 통해 사용자의 입력 실수 대응 및 예측 검색을 수행합니다. 예) "얹"을 입력한 경우 "언제나"가 검색 결과로 도출.
+- 마지막 문자의 홑받침을 다음 문자 검색에 사용합니다. 예) "국"을 입력한 경우 "_국_" 와 "_구ㄱ_"로 검색을 수행.
+- 마지막 문자의 겹받침을 분해하여 다음 문자를 예측 검색 합니다. 예) "많" 입력시 "_많_", "_만_", "_만ㅎ_"로 검색을 수행.
+- 겹초성으로 입력된 경우 분해 검색을 수행합니다. 예) ㅍㄻㅌ 입력시 "_ㅍㄹㅁㅌ_" 로 검색 수행.
 - Typescript 를 지원하도록 구현하였습니다.
 - AMD, CJS 스펙을 모두 지원할 수 있도록 UMD 패턴으로 작성하였습니다.
 - 사용법이 매우 간편합니다.
@@ -55,7 +58,7 @@ var json = [
 ];
 
 // 검색 수행
-const result = hansearch(json, "ㅈ렬화");
+const result = hansearch(json, "ㅈㅀ");
 console.log(result);
 
 /* 출력 결과
@@ -97,7 +100,7 @@ CDN을 이용하여 실행가능합니다.
     },
   ];
 
-  var result = hansearch(json, "ㅈ렬화");
+  var result = hansearch(json, "ㅈㅀ");
   console.log(result);
 
   /* 출력 결과
@@ -136,9 +139,9 @@ hansearch 의 3번째 인자에는 json 형태로 옵션값을 전달할 수도 
 
 ```js
 var options = {
-    "mode" : "exact",
-    "keys" : ["key1", "key2"]
-}
+  mode: "exact",
+  keys: ["key1", "key2"],
+};
 var result = hansearch(json, "ㅈ렬화", options);
 ```
 
@@ -152,11 +155,10 @@ var result = hansearch(json, "ㅈ렬화", options);
 
 ```js
 var keys = ["title", "users"];
-var options = { "keys" : ["title", "users"] };
+var options = { keys: ["title", "users"] };
 
 var result = hansearch(json, "ㅈ렬화", keys);
 var result = hansearch(json, "ㅈ렬화", options);
-
 ```
 
 ## References

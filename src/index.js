@@ -40,25 +40,24 @@
     return String.fromCharCode(HAN_START_CHAR + CHO_HANGUL.indexOf(cho) * CHO_PERIOD + JUNG_HANGUL.indexOf(jung) * JUNG_PERIOD + (jong ? JONG_HANGUL.indexOf(jong) : 0));
   };
 
-  // 사용자의 예상 기대 결과 도출을 위해 검색 키워드를 생성. 마지막 문자를 분해 조합.
+  // 사용자의 예상 기대 결과 도출을 위해 검색 키워드를 생성. 자음 문자 분해 조합.
   const makeSearchWords = (keyWord = "") => {
-    let keywords = [keyWord];
+    let keywords = [];
+    let preCharacters = keyWord.slice(0, -1); // 마지막 문자를 제외한 모든 문자열
+    const lastCharacter = keyWord.slice(-1); // 마지막 문자
 
-    let preCharacters = keyWord.slice(0, keyWord.length - 1); // 마지막 문자를 제외한 모든 문자열
-    preCharacters = preCharacters
-      .split("")
-      .map((currentChar) => {
-        if (MAP_DOUBLE_MOUM.hasOwnProperty(currentChar)) {
-          // 앞 문자열에 겹초성만 있는 문자는 분해해서 조립
-          return MAP_DOUBLE_MOUM[currentChar];
-        } else {
-          return currentChar;
-        }
-      })
-      .join("");
+    keywords.push(keyWord); // 사용자 입력 문자 그대로 추가
 
-    //keywords.push(preCharacters);
-    const lastCharacter = keyWord.charAt(keyWord.length - 1); // 마지막 문자
+    if (preCharacters) {
+      preCharacters = preCharacters
+        .split("")
+        .map((c) => (MAP_DOUBLE_MOUM.hasOwnProperty(c) ? MAP_DOUBLE_MOUM[c] : c))
+        .join("");
+
+      if (preCharacters !== preCharacters.split("").join("")) {
+        keywords.push(preCharacters); // 초성 분해 결합 문자 추가
+      }
+    }
 
     if (lastCharacter >= "가" && lastCharacter <= "힣") {
       // 모음이 포함된 경우
@@ -69,25 +68,27 @@
       const cho_char = CHO_HANGUL[cho];
       const jung_char = JUNG_HANGUL[jung];
       const jong_char = JONG_HANGUL[jong];
+
       if (jong > 0) {
         if (MAP_DOUBLE_MOUM.hasOwnProperty(jong_char)) {
           // 겹받침인 경우
-          let result = johapHangul(cho_char, jung_char, MAP_DOUBLE_MOUM[jong_char][0]);
-          keywords.push(preCharacters + result);
-          keywords.push(preCharacters + result + MAP_DOUBLE_MOUM[jong_char][1]);
+          const result = johapHangul(cho_char, jung_char, MAP_DOUBLE_MOUM[jong_char][0]);
+          keywords.push(preCharacters + result); // 겹받침 분해 홑받침으로 조합해서 추가
+          keywords.push(preCharacters + result + MAP_DOUBLE_MOUM[jong_char][1]); // 겹받침 분해 홑받침 + 초성 문자 추가
         } else {
           // 홑받침인 경우
-          keywords.push(preCharacters + johapHangul(cho_char, jung_char));
-          keywords.push(preCharacters + johapHangul(cho_char, jung_char) + jong_char);
+          keywords.push(preCharacters + johapHangul(cho_char, jung_char)); // 초성+중성 문자 추가
+          keywords.push(preCharacters + johapHangul(cho_char, jung_char) + jong_char); // 초성+중성+초성 문자 추가
         }
       }
     } else {
       // 초성만 있는 경우
       if (MAP_DOUBLE_MOUM.hasOwnProperty(lastCharacter)) {
-        keywords.push(preCharacters + MAP_DOUBLE_MOUM[lastCharacter]);
-      } else {
-        keywords.push(preCharacters + lastCharacter);
+        keywords.push(preCharacters + MAP_DOUBLE_MOUM[lastCharacter]); // 겹초성 분해 문자 추가
       }
+    }
+    if (preCharacters + lastCharacter !== keyWord) {
+      keywords.push(preCharacters + lastCharacter); // 초성 분해 + 마지막 문자 추가
     }
     return keywords;
   };
@@ -114,8 +115,9 @@
     } else {
       searchWords = makeSearchWords(keyWord); // default deassemble matching
     }
+
     const regexArray = searchWords.map((word) => makeRegexByCho(word)).filter((regex) => regex);
-    //console.log(searchWords, regexArray);
+    console.log(searchWords, regexArray);
 
     let searchResult = jsonObj.filter((obj) => {
       for (const key in obj) {
