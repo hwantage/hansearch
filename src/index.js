@@ -117,7 +117,7 @@
     }
 
     const regexArray = searchWords.map((word) => makeRegexByCho(word)).filter((regex) => regex);
-    console.log(searchWords, regexArray);
+    //console.log(searchWords, regexArray);
 
     let searchResult = jsonObj.filter((obj) => {
       for (const key in obj) {
