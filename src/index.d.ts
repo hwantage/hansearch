@@ -20,8 +20,12 @@ interface MarkedResult {
 
 type Options = Record<string, any> | string[];
 
-declare module "hansearch" {
-  const hansearch: (jsonObj: Record<string, any>[], keyWord: string, options?: Options) => MarkedResult;
+declare module "hangul-search" {
+  const hansearch: (
+    jsonObj: Record<string, any>[],
+    keyWord: string,
+    options?: Options
+  ) => MarkedResult;
 
   export = hansearch;
 }
