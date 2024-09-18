@@ -1,6 +1,6 @@
 {
   "name": "hangul-search",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Json객체에서 한글 검색을 수행. 한글 초성 검색을 지원. Korean search within JSON objects. Supports Korean initial consonant search.",
   "main": "src/index.js",
   "keywords": [
