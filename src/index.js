@@ -122,7 +122,12 @@
     let searchResult = jsonObj.filter((obj) => {
       for (const key in obj) {
         if (obj.hasOwnProperty(key) && (keys.length === 0 || keys.includes(key))) {
-          if (regexArray.some((regex) => regex.test(obj[key]))) {
+          let value = obj[key];
+          console.log(value);
+          if (typeof value === 'number') {
+            value = value.toString(); // convert number to string
+          }
+          if (typeof value === 'string' && regexArray.some((regex) => {regex.lastIndex = 0; return regex.test(value)})) {
             return true;
           }
         }
@@ -138,16 +143,30 @@
             const markedObj = {};
             for (const key in obj) {
               if (obj.hasOwnProperty(key)) {
+                let value = obj[key];
                 if (keys.length === 0 || keys.includes(key)) {
-                  if (Array.isArray(obj[key])) {
+                  if (Array.isArray(value)) {
                     // 배열인 경우 각 원소에 대해 처리
-                    markedObj[key] = obj[key].map((item) => {
-                      return regexArray.reduceRight((acc, regex) => acc.replace(regex, `<${tag}>$&</${tag}>`), item);
+                    markedObj[key] = value.map((item) => {
+                      if (typeof item === 'number') {
+                        item = item.toString(); // convert number to string
+                      }
+                      if (typeof item === 'string') {
+                        return regexArray.reduceRight((acc, regex) => acc.replace(regex, `<${tag}>$&</${tag}>`), item);
+                      }
+                      return item;
                     });
+                  } else if (typeof value === 'number') {
+                    value = value.toString(); // convert number to string
+                    markedObj[key] = regexArray.reduceRight((acc, regex) => acc.replace(regex, `<${tag}>$&</${tag}>`), value);
+                  } else if (typeof value === 'string') {
+                    markedObj[key] = regexArray.reduceRight((acc, regex) => acc.replace(regex, `<${tag}>$&</${tag}>`), value);
                   } else {
-                    markedObj[key] = regexArray.reduceRight((acc, regex) => acc.replace(regex, `<${tag}>$&</${tag}>`), obj[key]);
+                    markedObj[key] = value;
                   }
-                } else markedObj[key] = obj[key];
+                } else {
+                  markedObj[key] = value;
+                }
               }
             }
             return markedObj;
